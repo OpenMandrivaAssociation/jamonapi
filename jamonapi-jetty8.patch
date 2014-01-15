@@ -1,0 +1,93 @@
+diff -urN jamonapi/src/java/com/jamonapi/http/JAMonJettyHandler.java jamonapi.new/src/java/com/jamonapi/http/JAMonJettyHandler.java
+--- jamonapi/src/java/com/jamonapi/http/JAMonJettyHandler.java	2007-09-19 00:37:15.000000000 -0400
++++ jamonapi.new/src/java/com/jamonapi/http/JAMonJettyHandler.java	2012-02-07 06:04:03.254800508 -0500
+@@ -11,10 +11,10 @@
+ import javax.servlet.http.HttpServletResponse;
+ 
+ 
+-import org.mortbay.jetty.HttpConnection;
+-import org.mortbay.jetty.Request;
+-import org.mortbay.jetty.Response;
+-import org.mortbay.jetty.handler.HandlerWrapper;
++import org.eclipse.jetty.server.BlockingHttpConnection;
++import org.eclipse.jetty.server.Request;
++import org.eclipse.jetty.server.Response;
++import org.eclipse.jetty.server.handler.HandlerWrapper;
+ 
+ 
+ public class JAMonJettyHandler extends HandlerWrapper implements HttpMonManage{
+@@ -30,14 +30,15 @@
+     
+     /** Monitor the request and call any other requests in the decorator chain */
+     public void handle(String target, HttpServletRequest request, HttpServletResponse response, int dispatch) throws IOException, ServletException  {
+-        final Request baseRequest = (request instanceof Request) ? ((Request)request) : HttpConnection.getCurrentConnection().getRequest();
+-        final Response baseResponse = (response instanceof Response) ? ((Response)response) : HttpConnection.getCurrentConnection().getResponse();
++        final Request baseRequest = (request instanceof Request) ? ((Request)request) : BlockingHttpConnection.getCurrentConnection().getRequest();
++        final Response baseResponse = (response instanceof Response) ? ((Response)response) : BlockingHttpConnection.getCurrentConnection().getResponse();
+ 
+         HttpMon httpMon=null;
+         try {
+            httpMon=httpMonFactory.start(baseRequest, baseResponse);           
+ 
+-           super.handle(target, request, response, dispatch);
++           // XXX - verify correctness of these arguments
++           super.handle(target, baseRequest, request, response);
+         } catch (Throwable e) {
+             httpMon.throwException(e);
+          } finally {
+diff -urN jamonapi/src/java/com/jamonapi/http/JettyHttpMonItem.java jamonapi.new/src/java/com/jamonapi/http/JettyHttpMonItem.java
+--- jamonapi/src/java/com/jamonapi/http/JettyHttpMonItem.java	2007-09-19 00:37:15.000000000 -0400
++++ jamonapi.new/src/java/com/jamonapi/http/JettyHttpMonItem.java	2012-02-07 05:47:46.287890545 -0500
+@@ -5,7 +5,7 @@
+  */
+ import com.jamonapi.Monitor;
+ import com.jamonapi.MonitorFactory;
+-import org.mortbay.jetty.Request;
++import org.eclipse.jetty.server.Request;
+ 
+ 
+ class JettyHttpMonItem extends HttpMonItem {
+diff -urN jamonapi/src/java/com/jamonapi/proxy/JAMonDataSource.java jamonapi.new/src/java/com/jamonapi/proxy/JAMonDataSource.java
+--- jamonapi/src/java/com/jamonapi/proxy/JAMonDataSource.java	2011-07-21 10:27:30.000000000 -0400
++++ jamonapi.new/src/java/com/jamonapi/proxy/JAMonDataSource.java	2012-02-07 06:00:09.744821359 -0500
+@@ -4,6 +4,8 @@
+ import java.io.Serializable;
+ import java.sql.Connection;
+ import java.sql.SQLException;
++import java.sql.SQLFeatureNotSupportedException;
++import java.util.logging.Logger;
+ 
+ import javax.sql.*;
+ import javax.naming.Referenceable;
+@@ -79,4 +81,8 @@
+         return realDataSource.unwrap(arg0);
+     }
+ 
++    public Logger getParentLogger() throws SQLFeatureNotSupportedException {
++        throw new SQLFeatureNotSupportedException();
++    }
++
+ }
+diff -urN jamonapi/src/java/com/jamonapi/proxy/JAMonDriver.java jamonapi.new/src/java/com/jamonapi/proxy/JAMonDriver.java
+--- jamonapi/src/java/com/jamonapi/proxy/JAMonDriver.java	2011-08-02 17:48:16.000000000 -0400
++++ jamonapi.new/src/java/com/jamonapi/proxy/JAMonDriver.java	2012-02-07 06:01:13.931815788 -0500
+@@ -4,7 +4,7 @@
+ import java.util.Properties;
+ import java.util.regex.Matcher;
+ import java.util.regex.Pattern;
+-
++import java.util.logging.Logger;
+ 
+ 
+ import java.sql.*;
+@@ -245,6 +245,10 @@
+             
+     }
+     
++    public Logger getParentLogger() throws SQLFeatureNotSupportedException {
++        throw new SQLFeatureNotSupportedException();
++    }
++
+   
+ }
+ 

@@ -1,0 +1,54 @@
+--- src/ant/build.xml	2011-12-20 15:39:21.139447188 -0500
++++ src/ant/build.xml.new	2011-12-20 15:40:18.323443276 -0500
+@@ -8,11 +8,11 @@
+   <property name="name" value="${project}"/>
+   <property name="src" value="${basedir}/src"/>
+   <property name="build" value="${basedir}/build"/>
+-  <property name="dist" value="${basedir}\dist"/>
++  <property name="dist" value="${basedir}/dist"/>
+   <property name="backup" value="${basedir}/backup/"/>
+   <property name="release" value="${basedir}/release/"/>
+   <property name="doc" value="${src}/doc/javadoc/"/>
+-  <property name="lib" value="${basedir}/lib/"/>
++  <property name="lib" value="/usr/share/java"/>
+   <property name="java" value="${src}/java/"/>
+   <property name="osmon" value="${src}/osmon/"/>
+   <property name="debug" value="true"/>
+@@ -34,9 +34,13 @@
+   <path id="class.path">
+ 
+     <fileset dir="${lib}">
+-        <include name="*.zip"/>
+-        <include name="*.jar"/>
+-    	<exclude name="catalina_tomcat4.jar"/>
++        <include name="tomcat-el-2.2-api.jar"/>
++        <include name="tomcat-servlet-3.0-api.jar"/>
++        <include name="tomcat/*.jar"/>
++        <include name="jetty/jetty-server.jar"/>
++        <include name="jetty/jetty-io.jar"/>
++        <include name="jetty/jetty-util.jar"/>
++        <include name="interceptor.jar"/>
+     </fileset>
+ 
+   </path>
+@@ -104,7 +107,7 @@
+  <!--  ===========================================================================   -->
+ <!--  TARGET [CLEAN]   -->
+  <!--  ===========================================================================   -->
+-<target depends="prepare,backup" name="clean">
++<target depends="prepare" name="clean">
+   <delete dir="${build}"/>
+   <delete>
+ 		<fileset dir="${dist}">
+@@ -130,11 +133,6 @@
+     <exclude name="**/jamonapi/proxy/JAMonDataSource.java"/>
+   </javac>
+  	
+-  <javac  classpathref="class.path.tomcat4" debug="${debug}" deprecation="${deprication}" destdir="${build}" srcdir="${java}"  target="${vm}" source="${vm}">
+-    <include name="**/jamontomcat/JAMonTomcat4Valve.java"/>
+-    <include name="**/jamontomcat/JAMonTomcat5Valve.java"/>
+-  </javac>
+- 	
+   <javac  classpathref="class.path" debug="${debug}" deprecation="${deprication}" destdir="${build}" srcdir="${java}"  target="1.5" source="1.5">
+     <include name="**/jamonapi/aop/JAMonEJBInterceptor.java"/>
+     <include name="**/jamonapi/proxy/JAMonDataSource.java"/>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                             http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.jamonapi</groupId>
+  <artifactId>jamon</artifactId>
+  <packaging>jar</packaging>
+  <name>jamon</name>
+  <url>http://jamonapi.sourceforge.net/</url>
+  <version>2.74</version>
+  <description>
+    Jamon is a Java API that allows developers to easily monitor production
+    applications.
+  </description>
+  <licenses>
+    <license>
+      <name>BSD</name>
+      <url>http://www.opensource.org/licenses/bsd-license.php</url>
+    </license>
+  </licenses>
+
+  <scm>
+    <connection>scm:cvs:pserver:anonymous@jamonapi.cvs.sourceforge.net:/cvsroot/jamonapi</connection>
+  </scm>
+
+  <build>
+    <plugins>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+                <source>1.5</source>
+                <target>1.5</target>
+            </configuration>
+            <inherited>true</inherited>
+        </plugin>
+    </plugins>
+
+    <sourceDirectory>java</sourceDirectory>
+  </build>
+
+  <dependencies>
+    <dependency>
+       <groupId>org.apache.tomcat</groupId>
+       <artifactId>tomcat-catalina</artifactId>
+       <version>7.0.0</version>
+    </dependency>
+    <dependency>
+       <groupId>org.apache.tomcat</groupId>
+       <artifactId>tomcat-servlet-api</artifactId>
+       <version>7.0.0</version>
+    </dependency>
+    <dependency>
+       <groupId>org.eclipse.jetty</groupId>
+       <artifactId>jetty-util</artifactId>
+       <version>9.0.3</version>
+    </dependency>
+  </dependencies>
+</project>
