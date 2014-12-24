@@ -3,8 +3,9 @@
 
 Name:          jamonapi
 Version:       2.74
-Release:       2.0%{?dist}
+Release:       4.1
 Summary:       A Java monitoring API
+Group:		Development/Java
 License:       BSD
 URL:           http://jamonapi.sourceforge.net/
 # cvs -d:pserver:anonymous@jamonapi.cvs.sourceforge.net:/cvsroot/jamonapi login
@@ -20,6 +21,7 @@ Source0:       %{name}-%{version}.tar.xz
 Source1:       %{name}-%{version}.pom
 Patch0:        %{name}-buildxml.patch
 Patch1:        %{name}-jetty8.patch
+Patch2:		%{name}-log4j12.patch
 
 BuildRequires: java-devel
 BuildRequires: javapackages-tools
@@ -29,7 +31,7 @@ BuildRequires: tomcat-servlet-3.0-api
 BuildRequires: tomcat-el-2.2-api
 BuildRequires: jetty
 BuildRequires: geronimo-interceptor
-BuildRequires: log4j
+BuildRequires: log4j12
 BuildRequires: dos2unix
 Requires:      java
 Requires:      javapackages-tools
@@ -38,7 +40,7 @@ Requires:      tomcat-servlet-3.0-api
 Requires:      tomcat-el-2.2-api
 Requires:      jetty
 Requires:      geronimo-interceptor
-Requires:      log4j
+Requires:      log4j12
 BuildArch:     noarch
 
 %description
@@ -58,6 +60,7 @@ This package contains API documentation for Java monitoring API.
 %setup -q -n %{name}
 %patch0 -p0
 %patch1 -p1
+%patch2 -p1
 mkdir dist
 mkdir lib
 
@@ -97,12 +100,9 @@ install -pm 644 %{SOURCE1} %{buildroot}%{_mavenpomdir}/JPP-%{oname}.pom
 mkdir -p %{buildroot}%{_javadocdir}
 cp -rp src/doc/javadoc %{buildroot}%{_javadocdir}/%{name}
 
-%files
+%files -f .mfiles
 %doc src/JAMonUsersGuide
-%{_javadir}/%{oname}.jar
 %{_javadir}/%{name}.jar
-%{_mavenpomdir}/JPP-%{oname}.pom
-%{_mavendepmapfragdir}/%{name}
 
 %files javadoc
 %doc src/JAMonUsersGuide/JAMonLicense.html

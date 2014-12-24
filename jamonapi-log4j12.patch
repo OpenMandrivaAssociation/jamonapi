@@ -1,0 +1,10 @@
+--- jamonapi/src/ant/build.xml	2014-06-08 19:00:59.524698476 +0200
++++ jamonapi/src/ant/build.xml-gil	2014-06-08 19:02:24.492589868 +0200
+@@ -41,6 +41,7 @@
+         <include name="jetty/jetty-io.jar"/> <include name="jetty/jetty-http.jar"/>
+         <include name="jetty/jetty-util.jar"/>
+         <include name="interceptor.jar"/>
++        <include name="log4j12-1.2.17.jar"/>
+     </fileset>
+ 
+   </path>

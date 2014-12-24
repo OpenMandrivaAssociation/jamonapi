@@ -25,7 +25,7 @@
 +        <include name="tomcat-servlet-3.0-api.jar"/>
 +        <include name="tomcat/*.jar"/>
 +        <include name="jetty/jetty-server.jar"/>
-+        <include name="jetty/jetty-io.jar"/>
++        <include name="jetty/jetty-io.jar"/> <include name="jetty/jetty-http.jar"/>
 +        <include name="jetty/jetty-util.jar"/>
 +        <include name="interceptor.jar"/>
      </fileset>
