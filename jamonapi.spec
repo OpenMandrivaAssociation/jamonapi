@@ -3,7 +3,7 @@
 
 Name:          jamonapi
 Version:       2.74
-Release:       4.1
+Release:       4.2
 Summary:       A Java monitoring API
 Group:		Development/Java
 License:       BSD
