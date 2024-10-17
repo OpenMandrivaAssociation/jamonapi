@@ -7,7 +7,7 @@ Release:       4.3
 Summary:       A Java monitoring API
 Group:		Development/Java
 License:       BSD
-URL:           http://jamonapi.sourceforge.net/
+URL:           https://jamonapi.sourceforge.net/
 # cvs -d:pserver:anonymous@jamonapi.cvs.sourceforge.net:/cvsroot/jamonapi login
 # cvs -z3 -d:pserver:anonymous@jamonapi.cvs.sourceforge.net:/cvsroot/jamonapi co -P -r v2_74 jamonapi/src
 # Remove pregenerated javadoc files in the source tree
